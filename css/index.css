@@ -1,13 +1,35 @@
-/* Home/search page tweaks */
-.container {
-  max-width: 520px;
+/* =========================
+   index.css (home/search)
+   ========================= */
+
+/* Slightly narrower card for search page */
+.container{
+  max-width:640px;
 }
 
-h2 {
-  font-size: 18px;
-  line-height: 1.25;
+/* Home page secondary title */
+h2{
+  font-size:20px;
+  line-height:1.25;
+  margin-bottom:10px;
 }
 
-#symptom {
-  margin-top: 12px;
+/* Symptom input spacing */
+#symptom{
+  margin-top:14px;
+}
+
+/* If results list exists, make it look cleaner */
+#results,
+.results{
+  margin-top:14px;
+  padding:12px;
+  border-radius:14px;
+  background:rgba(236, 254, 255, .55);
+  border:1px solid rgba(15,118,110,.18);
+}
+
+#results p,
+.results p{
+  margin:0 0 10px;
 }
