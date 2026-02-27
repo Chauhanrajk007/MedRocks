@@ -1,13 +1,13 @@
 function detectSpecialist(text) {
 
-    text = text.toLowerCase();
+    text = text.toLowerCase().trim();
 
     const mapping = [
-        { specialist: "Orthopedic", keywords: ["knee","joint","bone","fracture"] },
-        { specialist: "Cardiologist", keywords: ["chest","heart","breath"] },
-        { specialist: "Dermatologist", keywords: ["skin","rash","itch"] },
-        { specialist: "Dentist", keywords: ["tooth","gum"] },
-        { specialist: "Neurologist", keywords: ["headache","migraine"] }
+        { specialist: "Orthopedic", keywords: ["knee","joint","bone","fracture","back"] },
+        { specialist: "Cardiologist", keywords: ["chest","heart","breath","pressure"] },
+        { specialist: "Dermatologist", keywords: ["skin","rash","itch","acne"] },
+        { specialist: "Dentist", keywords: ["tooth","gum","jaw"] },
+        { specialist: "Neurologist", keywords: ["headache","migraine","dizziness"] }
     ];
 
     let bestMatch = "General Physician";
@@ -15,8 +15,9 @@ function detectSpecialist(text) {
 
     mapping.forEach(group => {
         let score = 0;
-        group.keywords.forEach(k => {
-            if (text.includes(k)) score++;
+
+        group.keywords.forEach(keyword => {
+            if (text.includes(keyword)) score++;
         });
 
         if (score > maxScore) {
@@ -29,10 +30,15 @@ function detectSpecialist(text) {
 }
 
 function startSearch() {
+
     const text = document.getElementById("symptom").value;
+
+    if (!text) return;
+
     const specialist = detectSpecialist(text);
 
-    // redirect to doctors page with specialist
-    window.location.href = 
+    console.log("Detected Specialist:", specialist);
+
+    window.location.href =
         "doctors.html?specialist=" + encodeURIComponent(specialist);
 }
