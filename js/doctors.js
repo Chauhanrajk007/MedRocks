@@ -8,15 +8,15 @@ async function loadDoctors() {
         return;
     }
 
-    const response = await fetch(
-        `${SUPABASE_URL}/rest/v1/doctors?specialist=eq.${specialist}`,
-        {
-            headers: {
-                apikey: SUPABASE_KEY,
-                Authorization: `Bearer ${SUPABASE_KEY}`
-            }
-        }
-    );
+const response = await fetch(
+  `${SUPABASE_URL}/rest/v1/doctors?specialist=ilike.${specialist}`,
+  {
+    headers: {
+      apikey: SUPABASE_KEY,
+      Authorization: `Bearer ${SUPABASE_KEY}`
+    }
+  }
+);
 
     const data = await response.json();
 
@@ -51,3 +51,4 @@ function viewProfile(id) {
 }
 
 loadDoctors();
+
