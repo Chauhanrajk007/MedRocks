@@ -1,0 +1,13 @@
+/* Home/search page tweaks */
+.container {
+  max-width: 520px;
+}
+
+h2 {
+  font-size: 18px;
+  line-height: 1.25;
+}
+
+#symptom {
+  margin-top: 12px;
+}
