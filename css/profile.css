@@ -1,6 +1,28 @@
-/* Profile page tweaks */
-#profile {
-  margin-top: 10px;
-  font-size: 14px;
-  color: rgba(15, 23, 42, 0.9);
+/* =========================
+   profile.css
+   ========================= */
+
+#profile{
+  margin-top:14px;
+  font-size:14px;
+  color:rgba(15,23,42,.82);
+
+  padding:14px 14px;
+  border-radius:14px;
+  border:1px solid rgba(15,118,110,.20);
+  background:linear-gradient(180deg, rgba(236,254,255,.55), rgba(255,255,255,.92));
+}
+
+#profile strong{
+  color:rgba(15,23,42,.92);
+}
+
+#profile a{
+  color:#0f766e;
+  text-decoration:none;
+  font-weight:700;
+}
+
+#profile a:hover{
+  text-decoration:underline;
 }
