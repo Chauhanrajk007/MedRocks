@@ -4,17 +4,26 @@ async function loadDoctors() {
 
     document.getElementById("results").innerHTML = "Loading...";
 
+    const params = new URLSearchParams(window.location.search);
+    const specialist = params.get("specialist");
+
+    console.log("Specialist from URL:", specialist);
+
     try {
 
-        const response = await fetch(
-            `${SUPABASE_URL}/rest/v1/doctors`,
-            {
-                headers: {
-                    apikey: SUPABASE_KEY,
-                    Authorization: `Bearer ${SUPABASE_KEY}`
-                }
+        let url = `${SUPABASE_URL}/rest/v1/doctors`;
+
+        // If specialist exists, filter case-insensitive
+        if (specialist) {
+            url += `?specialist=ilike.${encodeURIComponent(specialist)}`;
+        }
+
+        const response = await fetch(url, {
+            headers: {
+                apikey: SUPABASE_KEY,
+                Authorization: `Bearer ${SUPABASE_KEY}`
             }
-        );
+        });
 
         doctorData = await response.json();
 
@@ -66,31 +75,25 @@ function applySort() {
 
     const option = document.getElementById("sortOption").value;
 
-    console.log("Sorting by:", option);
-
-    if (option === "price") {
+    if (option === "price")
         doctorData.sort((a, b) =>
             Number(a.price || 0) - Number(b.price || 0)
         );
-    }
 
-    if (option === "rating") {
+    if (option === "rating")
         doctorData.sort((a, b) =>
             Number(b.rating || 0) - Number(a.rating || 0)
         );
-    }
 
-    if (option === "experience") {
+    if (option === "experience")
         doctorData.sort((a, b) =>
             Number(b.experience || 0) - Number(a.experience || 0)
         );
-    }
 
-    if (option === "distance") {
+    if (option === "distance")
         doctorData.sort((a, b) =>
             Number(a.distance || 0) - Number(b.distance || 0)
         );
-    }
 
     displayDoctors(doctorData);
 }
