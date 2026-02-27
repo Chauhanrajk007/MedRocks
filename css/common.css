@@ -1,110 +1,211 @@
-/* ========== GLOBAL RESET ========== */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Segoe UI', sans-serif;
+/* =========================
+   MedRocks — Medical Teal UI
+   common.css (global styles)
+   ========================= */
+
+/* Design tokens */
+:root{
+  --bg0:#f6fbfb;
+  --bg1:#ecfeff;
+  --surface:#ffffff;
+  --surface-2:#f1fafa;
+  --text:#0f172a;
+  --muted:rgba(15,23,42,.72);
+
+  --teal-900:#134e4a;
+  --teal-800:#115e59;
+  --teal-700:#0f766e;
+  --teal-600:#0d9488;
+  --teal-500:#14b8a6;
+  --teal-200:#99f6e4;
+
+  --border:rgba(15,118,110,.22);
+  --shadow:0 14px 35px rgba(2, 44, 43, .12);
+  --shadow-soft:0 10px 22px rgba(2, 44, 43, .10);
+
+  --radius:18px;
+  --radius-sm:12px;
+  --ring:0 0 0 4px rgba(20,184,166,.22);
+
+  --font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
 }
 
-body {
-  background: linear-gradient(135deg, #0f766e, #14b8a6);
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #0f172a;
-  padding: 20px;
+/* Global reset */
+*,
+*::before,
+*::after{
+  box-sizing:border-box;
 }
 
-/* ========== GLASS CARD CONTAINER ========== */
-.container {
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(12px);
-  padding: 40px;
-  border-radius: 20px;
-  width: 90%;
-  max-width: 900px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-  transition: 0.4s ease;
+html, body{
+  height:100%;
 }
 
-.container:hover {
-  transform: translateY(-5px);
+body{
+  margin:0;
+  font-family:var(--font);
+  color:var(--text);
+  background:
+    radial-gradient(900px 420px at 20% 10%, rgba(20,184,166,.20), transparent 55%),
+    radial-gradient(900px 420px at 80% 90%, rgba(13,148,136,.16), transparent 55%),
+    linear-gradient(180deg, var(--bg1), var(--bg0));
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  line-height:1.5;
 }
 
-/* ========== HEADINGS ========== */
-h1, h2, h3 {
-  text-align: center;
-  margin-bottom: 16px;
-  color: #0f766e;
+/* Container: clean clinical card (no heavy glass) */
+.container{
+  width:min(920px, 92vw);
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:36px;
+  position:relative;
+  overflow:hidden;
 }
 
-/* ========== INPUTS ========== */
-input, select, textarea {
-  width: 100%;
-  padding: 12px 15px;
-  margin: 10px 0;
-  border: 2px solid #14b8a6;
-  border-radius: 12px;
-  outline: none;
-  transition: 0.3s ease;
-  font-size: 14px;
-  background: #fff;
+.container::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    linear-gradient(135deg, rgba(20,184,166,.10), transparent 35%),
+    linear-gradient(315deg, rgba(13,148,136,.08), transparent 35%);
 }
 
-input:focus, textarea:focus, select:focus {
-  border-color: #0f766e;
-  box-shadow: 0 0 10px rgba(20,184,166,0.3);
+/* Typography */
+h1, h2, h3{
+  margin:0 0 14px;
+  text-align:center;
+  color:var(--teal-800);
+  letter-spacing:.2px;
 }
 
-/* ========== BUTTONS ========== */
-button {
-  width: 100%;
-  padding: 12px;
-  margin-top: 15px;
-  border: none;
-  border-radius: 12px;
-  background: #0f766e;
-  color: white;
-  font-size: 15px;
-  cursor: pointer;
-  transition: 0.3s ease;
+h1{ font-size:28px; line-height:1.2; }
+h2{ font-size:20px; line-height:1.25; }
+h3{ font-size:16px; line-height:1.3; }
+
+p{
+  margin:0 0 12px;
+  color:var(--muted);
 }
 
-button:hover {
-  background: #134e4a;
-  transform: scale(1.03);
+/* Inputs */
+input, select, textarea{
+  width:100%;
+  margin:10px 0;
+  padding:12px 14px;
+  font-size:14px;
+  color:var(--text);
+  background:var(--surface);
+  border:1.5px solid rgba(15,118,110,.25);
+  border-radius:var(--radius-sm);
+  outline:none;
+  transition:border-color .2s ease, box-shadow .2s ease, transform .06s ease;
 }
 
-/* ========== HR ========== */
-.hr {
-  height: 1px;
-  border: 0;
-  background: rgba(15, 118, 110, 0.25);
-  margin: 16px 0;
+textarea{ resize:vertical; min-height:96px; }
+
+input::placeholder,
+textarea::placeholder{
+  color:rgba(15,23,42,.45);
 }
 
-/* ========== SMALL LOGO/SYMBOL ========== */
-.auth-logo {
-  width: 72px;
-  height: 72px;
-  border-radius: 18px;
-  margin: 0 auto 14px auto;
-  display: grid;
-  place-items: center;
-  background: rgba(20,184,166,0.12);
-  border: 2px solid rgba(20,184,166,0.35);
-  color: #0f766e;
-  font-weight: 800;
-  letter-spacing: 1px;
+input:focus,
+select:focus,
+textarea:focus{
+  border-color:rgba(20,184,166,.85);
+  box-shadow:var(--ring);
 }
 
-/* ========== SMOOTH ANIMATION ========== */
-.fade-in {
-  animation: fade 0.8s ease-in-out;
+input:active,
+select:active,
+textarea:active{
+  transform:translateY(.5px);
 }
 
-@keyframes fade {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+/* Buttons */
+button{
+  width:100%;
+  margin-top:14px;
+  padding:12px 14px;
+  border:0;
+  border-radius:var(--radius-sm);
+  background:linear-gradient(180deg, var(--teal-600), var(--teal-700));
+  color:#fff;
+  font-weight:700;
+  font-size:15px;
+  cursor:pointer;
+  box-shadow:var(--shadow-soft);
+  transition:transform .12s ease, box-shadow .2s ease, filter .2s ease;
+}
+
+button:hover{
+  filter:saturate(1.05) brightness(1.02);
+  box-shadow:0 14px 26px rgba(2,44,43,.14);
+  transform:translateY(-1px);
+}
+
+button:active{
+  transform:translateY(0px);
+  box-shadow:0 10px 18px rgba(2,44,43,.12);
+}
+
+button:focus-visible{
+  outline:none;
+  box-shadow:var(--shadow-soft), var(--ring);
+}
+
+/* Divider */
+.hr{
+  height:1px;
+  border:0;
+  background:linear-gradient(90deg, transparent, rgba(15,118,110,.30), transparent);
+  margin:18px 0;
+}
+
+/* Logo mark */
+.auth-logo{
+  width:72px;
+  height:72px;
+  margin:0 auto 14px;
+  display:grid;
+  place-items:center;
+  border-radius:20px;
+  background:
+    radial-gradient(18px 18px at 30% 30%, rgba(20,184,166,.28), transparent 60%),
+    linear-gradient(180deg, rgba(20,184,166,.14), rgba(20,184,166,.08));
+  border:1px solid rgba(15,118,110,.25);
+  color:var(--teal-800);
+  font-weight:900;
+  letter-spacing:1px;
+  box-shadow:0 10px 18px rgba(2,44,43,.08);
+}
+
+/* Motion */
+.fade-in{
+  animation: fade .55s ease-out both;
+}
+
+@keyframes fade{
+  from{ opacity:0; transform:translateY(14px); }
+  to{ opacity:1; transform:translateY(0); }
+}
+
+/* Better small screens */
+@media (max-width: 520px){
+  body{ padding:16px; }
+  .container{ padding:22px; border-radius:16px; }
+  h1{ font-size:24px; }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  *{ animation:none !important; transition:none !important; }
 }
