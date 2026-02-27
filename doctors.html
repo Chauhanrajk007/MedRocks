@@ -1,11 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>MedRocks Doctors</title>
+    <title>MedRocks - Doctors</title>
 </head>
 <body>
 
 <h2>Available Doctors</h2>
+
+<label>Sort By:</label>
+<select id="sortOption" onchange="applySort()">
+    <option value="distance">Distance</option>
+    <option value="price">Price</option>
+    <option value="rating">Rating</option>
+    <option value="experience">Experience</option>
+</select>
+
+<hr>
 
 <div id="results"></div>
 
