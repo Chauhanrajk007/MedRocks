@@ -2,28 +2,42 @@ let doctorData = [];
 
 async function loadDoctors() {
 
-    const response = await fetch(
-        `${SUPABASE_URL}/rest/v1/doctors`,
-        {
-            headers: {
-                apikey: SUPABASE_KEY,
-                Authorization: `Bearer ${SUPABASE_KEY}`
+    document.getElementById("results").innerHTML = "Loading...";
+
+    try {
+
+        const response = await fetch(
+            `${SUPABASE_URL}/rest/v1/doctors`,
+            {
+                headers: {
+                    apikey: SUPABASE_KEY,
+                    Authorization: `Bearer ${SUPABASE_KEY}`
+                }
             }
+        );
+
+        doctorData = await response.json();
+
+        console.log("Loaded Doctors:", doctorData);
+
+        if (!doctorData || doctorData.length === 0) {
+            document.getElementById("results").innerHTML =
+                "No doctors available.";
+            return;
         }
-    );
 
-    doctorData = await response.json();
+        // Default sort by distance
+        doctorData.sort((a, b) =>
+            Number(a.distance || 0) - Number(b.distance || 0)
+        );
 
-    if (!doctorData || doctorData.length === 0) {
+        displayDoctors(doctorData);
+
+    } catch (error) {
+        console.error("Fetch Error:", error);
         document.getElementById("results").innerHTML =
-            "No doctors available.";
-        return;
+            "Database connection error.";
     }
-
-    // Default sort
-    doctorData.sort((a, b) => a.distance - b.distance);
-
-    displayDoctors(doctorData);
 }
 
 function displayDoctors(data) {
@@ -31,15 +45,16 @@ function displayDoctors(data) {
     let html = "";
 
     data.forEach(doc => {
+
         html += `
-            <div>
+            <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
                 <h3>${doc.name}</h3>
-                <p>${doc.specialist}</p>
-                <p>₹${doc.price}</p>
-                <p>Distance: ${doc.distance} km</p>
-                <p>Rating: ${doc.rating}</p>
-                <p>Experience: ${doc.experience} years</p>
-                <hr>
+                <p><b>Specialist:</b> ${doc.specialist}</p>
+                <p><b>Clinic:</b> ${doc.clinic_name || "-"}</p>
+                <p><b>Fee:</b> ₹${doc.price}</p>
+                <p><b>Distance:</b> ${doc.distance} km</p>
+                <p><b>Rating:</b> ${doc.rating}</p>
+                <p><b>Experience:</b> ${doc.experience} years</p>
             </div>
         `;
     });
@@ -51,17 +66,31 @@ function applySort() {
 
     const option = document.getElementById("sortOption").value;
 
-    if (option === "price")
-        doctorData.sort((a, b) => a.price - b.price);
+    console.log("Sorting by:", option);
 
-    if (option === "rating")
-        doctorData.sort((a, b) => b.rating - a.rating);
+    if (option === "price") {
+        doctorData.sort((a, b) =>
+            Number(a.price || 0) - Number(b.price || 0)
+        );
+    }
 
-    if (option === "experience")
-        doctorData.sort((a, b) => b.experience - a.experience);
+    if (option === "rating") {
+        doctorData.sort((a, b) =>
+            Number(b.rating || 0) - Number(a.rating || 0)
+        );
+    }
 
-    if (option === "distance")
-        doctorData.sort((a, b) => a.distance - b.distance);
+    if (option === "experience") {
+        doctorData.sort((a, b) =>
+            Number(b.experience || 0) - Number(a.experience || 0)
+        );
+    }
+
+    if (option === "distance") {
+        doctorData.sort((a, b) =>
+            Number(a.distance || 0) - Number(b.distance || 0)
+        );
+    }
 
     displayDoctors(doctorData);
 }
