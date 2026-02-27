@@ -2,28 +2,31 @@
 <html>
 <head>
     <title>MedRocks - Doctors</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/doctors.css">
 </head>
 <body>
 
-<h2>Available Doctors</h2>
+    <div class="container fade-in">
+        <h2>Available Doctors</h2>
 
-<label>Sort By:</label>
-<select id="sortOption" onchange="applySort()">
-    <option value="distance">Distance</option>
-    <option value="price">Price</option>
-    <option value="rating">Rating</option>
-    <option value="experience">Experience</option>
-</select>
+        <div class="sort-row">
+            <label for="sortOption">Sort By:</label>
+            <select id="sortOption" onchange="applySort()">
+                <option value="distance">Distance</option>
+                <option value="price">Price</option>
+                <option value="rating">Rating</option>
+                <option value="experience">Experience</option>
+            </select>
+        </div>
 
-<hr>
+        <hr class="hr">
 
-<div id="results"></div>
+        <div id="results"></div>
+    </div>
 
-<script src="js/config.js"></script>
-<script src="js/doctors.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/doctors.js"></script>
 
 </body>
 </html>
-
-
