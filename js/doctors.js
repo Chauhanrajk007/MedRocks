@@ -1,63 +1,69 @@
+let doctorData = [];
+
 async function loadDoctors() {
 
-    const params = new URLSearchParams(window.location.search);
-    const specialist = params.get("specialist");
+    const response = await fetch(
+        `${SUPABASE_URL}/rest/v1/doctors`,
+        {
+            headers: {
+                apikey: SUPABASE_KEY,
+                Authorization: `Bearer ${SUPABASE_KEY}`
+            }
+        }
+    );
 
-    console.log("Specialist from URL:", specialist);
+    doctorData = await response.json();
 
-    if (!specialist) {
+    if (!doctorData || doctorData.length === 0) {
         document.getElementById("results").innerHTML =
-            "No specialist selected.";
+            "No doctors available.";
         return;
     }
 
-    try {
+    // Default sort
+    doctorData.sort((a, b) => a.distance - b.distance);
 
-        const response = await fetch(
-            `${SUPABASE_URL}/rest/v1/doctors?specialist=ilike.${encodeURIComponent(specialist)}`,
-            {
-                headers: {
-                    apikey: SUPABASE_KEY,
-                    Authorization: `Bearer ${SUPABASE_KEY}`
-                }
-            }
-        );
+    displayDoctors(doctorData);
+}
 
-        const data = await response.json();
+function displayDoctors(data) {
 
-        console.log("Doctors returned:", data);
+    let html = "";
 
-        if (!data || data.length === 0) {
-            document.getElementById("results").innerHTML =
-                "No doctors available.";
-            return;
-        }
+    data.forEach(doc => {
+        html += `
+            <div>
+                <h3>${doc.name}</h3>
+                <p>${doc.specialist}</p>
+                <p>₹${doc.price}</p>
+                <p>Distance: ${doc.distance} km</p>
+                <p>Rating: ${doc.rating}</p>
+                <p>Experience: ${doc.experience} years</p>
+                <hr>
+            </div>
+        `;
+    });
 
-        // Default sort by distance
-        data.sort((a, b) => a.distance - b.distance);
+    document.getElementById("results").innerHTML = html;
+}
 
-        let html = "";
+function applySort() {
 
-        data.forEach(doc => {
-            html += `
-                <div>
-                    <h3>${doc.name}</h3>
-                    <p>${doc.clinic_name}</p>
-                    <p>${doc.address}</p>
-                    <p>₹${doc.price}</p>
-                    <p>Distance: ${doc.distance} km</p>
-                    <hr>
-                </div>
-            `;
-        });
+    const option = document.getElementById("sortOption").value;
 
-        document.getElementById("results").innerHTML = html;
+    if (option === "price")
+        doctorData.sort((a, b) => a.price - b.price);
 
-    } catch (error) {
-        console.error(error);
-        document.getElementById("results").innerHTML =
-            "Database connection error.";
-    }
+    if (option === "rating")
+        doctorData.sort((a, b) => b.rating - a.rating);
+
+    if (option === "experience")
+        doctorData.sort((a, b) => b.experience - a.experience);
+
+    if (option === "distance")
+        doctorData.sort((a, b) => a.distance - b.distance);
+
+    displayDoctors(doctorData);
 }
 
 loadDoctors();
